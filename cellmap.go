@@ -27,7 +27,7 @@ func GetCellMapWithRow(data interface{}, fromRow int) (map[string]interface{}, e
 		for i := 0; i < typeData.NumField(); i++ {
 			field := typeData.Field(i)
 			cell := fmt.Sprintf("%s%d", field.Tag.Get("excol"), fromRow)
-			result[cell] = dataValue.Field(i).Interface().(string)
+			result[cell] = fmt.Sprintf("%v", dataValue.Field(i).Interface())
 		}
 		fromRow++
 	}

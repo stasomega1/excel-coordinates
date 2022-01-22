@@ -18,16 +18,24 @@ func GetCellMapWithRow(data interface{}, fromRow int) (map[string]interface{}, e
 	}
 
 	s := reflect.ValueOf(data)
+	//iterate over a slice
 	for i := 0; i < s.Len(); i++ {
 		dataValue := s.Index(i)
+		//if slice is a pointer - get its value
 		if dataValue.Kind() == reflect.Ptr {
 			dataValue = dataValue.Elem()
 		}
 		typeData := dataValue.Type()
+		//iterate over fields
 		for i := 0; i < typeData.NumField(); i++ {
 			field := typeData.Field(i)
 			cell := fmt.Sprintf("%s%d", field.Tag.Get("excol"), fromRow)
-			result[cell] = fmt.Sprintf("%v", dataValue.Field(i).Interface())
+			dataField := dataValue.Field(i)
+			//if field is a pointer - get its value
+			if dataField.Kind() == reflect.Ptr {
+				dataField = dataField.Elem()
+			}
+			result[cell] = fmt.Sprintf("%v", dataField.Interface())
 		}
 		fromRow++
 	}

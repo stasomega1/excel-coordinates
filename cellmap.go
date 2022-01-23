@@ -10,6 +10,10 @@ var (
 	ErrNotASlice = errors.New("input data is not a slice")
 )
 
+const (
+	colTag = "excol"
+)
+
 func GetCellMapWithRow(data interface{}, fromRow int) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 
@@ -29,7 +33,7 @@ func GetCellMapWithRow(data interface{}, fromRow int) (map[string]interface{}, e
 		//iterate over fields
 		for i := 0; i < typeData.NumField(); i++ {
 			field := typeData.Field(i)
-			cell := fmt.Sprintf("%s%d", field.Tag.Get("excol"), fromRow)
+			cell := fmt.Sprintf("%s%d", field.Tag.Get(colTag), fromRow)
 			dataField := dataValue.Field(i)
 			//if field is a pointer - get its value
 			if dataField.Kind() == reflect.Ptr {

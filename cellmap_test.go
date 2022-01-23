@@ -9,6 +9,7 @@ type StructToExcel struct {
 	Field2 int     `excol:"B"`
 	Field3 float64 `excol:"C"`
 	Field4 *string `excol:"D"`
+	Field5 bool    `excol:"F"`
 }
 
 func getPtrStr(value string) *string {
@@ -29,18 +30,21 @@ func TestGetCellMapWithRow(t *testing.T) {
 				Field2: 1,
 				Field3: 0.1,
 				Field4: getPtrStr("strPtrField1"),
+				Field5: true,
 			},
 			{
 				Field1: "strField2",
 				Field2: 2,
 				Field3: 0.2,
 				Field4: getPtrStr("strPtrField2"),
+				Field5: true,
 			},
 			{
 				Field1: "strField3",
 				Field2: 3,
 				Field3: 3.0,
 				Field4: getPtrStr("strPtrField3"),
+				Field5: true,
 			},
 		},
 		havePtr: []*StructToExcel{
@@ -49,18 +53,21 @@ func TestGetCellMapWithRow(t *testing.T) {
 				Field2: 1,
 				Field3: 0.1,
 				Field4: getPtrStr("strPtrField1"),
+				Field5: true,
 			},
 			{
 				Field1: "strField2",
 				Field2: 2,
 				Field3: 0.2,
 				Field4: getPtrStr("strPtrField2"),
+				Field5: true,
 			},
 			{
 				Field1: "strField3",
 				Field2: 3,
 				Field3: 3.0,
 				Field4: getPtrStr("strPtrField3"),
+				Field5: true,
 			},
 		},
 		want: map[string]string{
@@ -76,6 +83,9 @@ func TestGetCellMapWithRow(t *testing.T) {
 			"D1": "strPtrField1",
 			"D2": "strPtrField2",
 			"D3": "strPtrField3",
+			"F1": "true",
+			"F2": "true",
+			"F3": "true",
 		},
 	}
 

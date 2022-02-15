@@ -33,13 +33,21 @@ func GetCellMapWithRow(data interface{}, fromRow int) (map[string]interface{}, e
 		//iterate over fields
 		for i := 0; i < typeData.NumField(); i++ {
 			field := typeData.Field(i)
-			cell := fmt.Sprintf("%s%d", field.Tag.Get(colTag), fromRow)
+			column := field.Tag.Get(colTag)
+			if column == "" {
+				continue
+			}
+			cell := fmt.Sprintf("%s%d", column, fromRow)
 			dataField := dataValue.Field(i)
 			//if field is a pointer - get its value
 			if dataField.Kind() == reflect.Ptr {
 				dataField = dataField.Elem()
 			}
-			result[cell] = fmt.Sprintf("%v", dataField.Interface())
+			if dataField.IsValid() {
+				result[cell] = fmt.Sprintf("%v", dataField.Interface())
+			} else {
+				result[cell] = ""
+			}
 		}
 		fromRow++
 	}

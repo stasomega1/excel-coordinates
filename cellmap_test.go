@@ -29,7 +29,7 @@ func TestGetCellMapWithRow(t *testing.T) {
 				Field1: "strField1",
 				Field2: 1,
 				Field3: 0.1,
-				Field4: getPtrStr("strPtrField1"),
+				Field4: nil,
 				Field5: true,
 			},
 			{
@@ -52,7 +52,7 @@ func TestGetCellMapWithRow(t *testing.T) {
 				Field1: "strField1",
 				Field2: 1,
 				Field3: 0.1,
-				Field4: getPtrStr("strPtrField1"),
+				Field4: nil,
 				Field5: true,
 			},
 			{
@@ -80,7 +80,7 @@ func TestGetCellMapWithRow(t *testing.T) {
 			"C1": "0.1",
 			"C2": "0.2",
 			"C3": "3",
-			"D1": "strPtrField1",
+			"D1": "",
 			"D2": "strPtrField2",
 			"D3": "strPtrField3",
 			"F1": "true",
@@ -97,6 +97,17 @@ func TestGetCellMapWithRow(t *testing.T) {
 	resultPtr, err := GetCellMapWithRow(test.havePtr, 1)
 	if err != nil {
 		t.Error(err)
+	}
+
+	for cell, value := range result {
+		if test.want[cell] != value {
+			t.Errorf("result failed, cell: %s, want %s, have %s", cell, value, result[cell])
+		}
+	}
+	for cell, value := range resultPtr {
+		if test.want[cell] != value {
+			t.Errorf("resultPtr failed, cell: %s, want %s, have %s", cell, value, result[cell])
+		}
 	}
 
 	for cell, value := range test.want {
